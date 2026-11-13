@@ -27,7 +27,7 @@ del APK ya parcheado del propietario. Uso 100% personal; no publicar en índices
 - [x] Recibir APK base + APK parcheado (vía release `apks-trabajo`)
 - [x] Diff base vs parcheado → funciones a replicar identificadas
 - [x] Escribir los patches reales (4 patches, reemplazan el example de la plantilla)
-- [ ] Primer release en `dev` y prueba en Morphe Manager
+- [x] Pre-release v1.0.0-dev.1 publicado en `dev` (bundle patches-1.0.0-dev.1.mpp) — falta prueba en Morphe Manager
 
 ## Patches actuales (Kawaii Animes `com.darkdeveloper.kawaiianimes` 2.1.3)
 
