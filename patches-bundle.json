@@ -1,7 +1,7 @@
 {
-  "created_at": "",
-  "description": "",
-  "download_url": "",
+  "created_at": "2026-11-13T23:24:39",
+  "description": "## 1.0.0-dev.1 (2026-11-13)\n\n### ✨ New Features\n\n* Agregar 4 patches para Kawaii Animes 2.1.3 (saltar anuncios, recompensa instantanea, bypass adblock, desactivar Unity Ads) ([2b225cc](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/2b225cc952bdb5e62d7ae4cb66f44faf8826be13))\n\n### 🐛 Bug Fixes\n\n* appIconColor en formato 0xRRGGBB sin canal alfa ([fa22a2c](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/fa22a2cf149522eea7b4345c2684c6d3423d95b2))",
+  "download_url": "https://github.com/hiroshiren86-sketch/morphe-patches-personal/releases/download/v1.0.0-dev.1/patches-1.0.0-dev.1.mpp",
   "signature_download_url": "",
-  "version": ""
+  "version": "1.0.0-dev.1"
 }
