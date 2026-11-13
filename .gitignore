@@ -132,3 +132,9 @@ node_modules/
 # Ignore IDEA files
 .idea/
 local.properties
+
+### Proyecto personal (secretos y claves)
+secrets/
+*.env
+*.keystore
+*.jks
