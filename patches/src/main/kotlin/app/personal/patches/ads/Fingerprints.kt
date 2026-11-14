@@ -36,22 +36,3 @@ object IsAdRewardedRelaxedFingerprint : Fingerprint(
     returnType = "Z",
     parameters = listOf("I")
 )
-
-/**
- * Cascada para AdManager.initialize(Z)V. El nombre "initialize" es común,
- * así que la variante relajada se limita al prefijo de la clase AdManager
- * (no se hace match solo por nombre).
- */
-object AdManagerInitializeFingerprint : Fingerprint(
-    definingClass = "Lcom/darkdeveloper/kawaiianimes/data/ads/AdManager;",
-    name = "initialize",
-    returnType = "V",
-    parameters = listOf("Z")
-)
-
-object AdManagerInitializeRelaxedFingerprint : Fingerprint(
-    definingClass = "Lcom/darkdeveloper/kawaiianimes/data/ads/AdManager",
-    name = "initialize",
-    returnType = "V",
-    parameters = listOf("Z")
-)
