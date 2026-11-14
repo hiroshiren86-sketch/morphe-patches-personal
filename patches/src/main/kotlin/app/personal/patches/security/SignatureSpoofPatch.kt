@@ -3,11 +3,13 @@ package app.personal.patches.security
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.PatchException
+import app.morphe.patcher.patch.mutableClassDefBy
 import app.morphe.patcher.patch.patch
 import app.morphe.patcher.util.proxy.mutableTypes.MutableMethod
 import app.personal.patches.Constants.KAWAII_ANIMES
 import app.personal.patches.resolveMethodWithFallback
 import com.android.tools.smali.dexlib2.AccessFlags
+import com.android.tools.smali.dexlib2.HiddenApiRestriction
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.immutable.ImmutableMethod
 import com.android.tools.smali.dexlib2.immutable.ImmutableMethodImplementation
@@ -101,6 +103,7 @@ val signatureSpoofPatch = patch(
                 listOf(ImmutableMethodParameter("Landroid/content/Context;", null, null)),
                 "V",
                 AccessFlags.PROTECTED.value,
+                emptySet<HiddenApiRestriction>(),
                 null,
                 ImmutableMethodImplementation(2, instructions, null, null),
             )
