@@ -1,3 +1,12 @@
+## [1.0.0-dev.6](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.5...v1.0.0-dev.6) (2026-11-14)
+
+### 🐛 Bug Fixes
+
+* global mutableClassDefBy + hiddenApiRestrictions en ImmutableMethod (smali 3.x) ([aede160](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/aede1607617bb145dabafba368b6cd445b242475))
+* imports de dexlib2 en paquete immutable ([ef99e6b](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/ef99e6b1410c52778c086d3fb488096fa90fafc7))
+* orden de parametros de ImmutableMethod (annotations antes de hiddenApiRestrictions) ([dbafbc7](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/dbafbc7a5ec64e841f3a3df48cc6ff646ebf2e08))
+* spoof de firma en attachBaseContext + diagnostico sin ADB ([39d9770](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/39d97709a0083e2d20aa00c332d0c2eb87ae6485))
+
 ## [1.0.0-dev.5](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.4...v1.0.0-dev.5) (2026-11-14)
 
 ### 🐛 Bug Fixes

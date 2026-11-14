@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.5",
+  "version": "1.0.0-dev.6",
   "patches": [
     {
       "name": "Bypass del detector de AdBlock",
@@ -58,7 +58,7 @@
     },
     {
       "name": "Firma original en PackageManager (V29)",
-      "description": "La proteccion nativa lee la firma del APK via PackageManager y el servidor valida proofs calculados con la firma ORIGINAL. Este patch instala un proxy del PackageManager que devuelve la firma original, para que la libreria nativa genere proofs validos y el catalogo cargue con el APK re-firmado. Debe usarse sin eliminar las librerias nativas.",
+      "description": "La proteccion nativa lee la firma del APK via PackageManager y el servidor valida proofs calculados con la firma ORIGINAL. Este patch instala un proxy del PackageManager que devuelve la firma original (instalado en attachBaseContext, antes de cualquier inicializacion), para que la libreria nativa genere proofs validos y el catalogo y los streams funcionen con el APK re-firmado. Deja un log en Android/data/<paquete>/files/sigspoof.log.",
       "default": true,
       "category": null,
       "compatiblePackages": [

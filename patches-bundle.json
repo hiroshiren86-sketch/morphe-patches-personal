@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-14T22:42:43",
-  "description": "## [1.0.0-dev.5](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.4...v1.0.0-dev.5) (2026-11-14)\n\n### 🐛 Bug Fixes\n\n* spoof de firma original via proxy de PackageManager para proofs validos ([6c0f89a](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/6c0f89a8deda0ef92be967df7bc05a189712f64c))",
-  "download_url": "https://github.com/hiroshiren86-sketch/morphe-patches-personal/releases/download/v1.0.0-dev.5/patches-1.0.0-dev.5.mpp",
+  "created_at": "2026-11-14T23:54:45",
+  "description": "## [1.0.0-dev.6](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.5...v1.0.0-dev.6) (2026-11-14)\n\n### 🐛 Bug Fixes\n\n* global mutableClassDefBy + hiddenApiRestrictions en ImmutableMethod (smali 3.x) ([aede160](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/aede1607617bb145dabafba368b6cd445b242475))\n* imports de dexlib2 en paquete immutable ([ef99e6b](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/ef99e6b1410c52778c086d3fb488096fa90fafc7))\n* orden de parametros de ImmutableMethod (annotations antes de hiddenApiRestrictions) ([dbafbc7](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/dbafbc7a5ec64e841f3a3df48cc6ff646ebf2e08))\n* spoof de firma en attachBaseContext + diagnostico sin ADB ([39d9770](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/39d97709a0083e2d20aa00c332d0c2eb87ae6485))",
+  "download_url": "https://github.com/hiroshiren86-sketch/morphe-patches-personal/releases/download/v1.0.0-dev.6/patches-1.0.0-dev.6.mpp",
   "signature_download_url": "",
-  "version": "1.0.0-dev.5"
+  "version": "1.0.0-dev.6"
 }
