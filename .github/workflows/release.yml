@@ -12,6 +12,7 @@ jobs:
       packages: write
       id-token: write
       attestations: write
+      actions: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
