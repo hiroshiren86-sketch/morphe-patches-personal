@@ -2,8 +2,8 @@ rootProject.name = "morphe-patches-template"
 
 pluginManagement {
     repositories {
-        gradlePluginPortal()
-        google()
+        // El plugin de patches y el patcher viven en el registry de Morphe;
+        // se consulta primero para no depender del portal de Gradle.
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/MorpheApp/registry")
@@ -12,6 +12,8 @@ pluginManagement {
                 password = providers.gradleProperty("gpr.key").orNull ?: System.getenv("GITHUB_TOKEN")
             }
         }
+        gradlePluginPortal()
+        google()
         maven { url = uri("https://jitpack.io") }
     }
 }
