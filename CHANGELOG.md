@@ -1,3 +1,9 @@
+## [1.0.0-dev.2](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2026-11-14)
+
+### 🐛 Bug Fixes
+
+* cascada de fingerprints para robustez entre builds de la app ([369ec40](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/369ec4041a3b4e42b2cf6ffd924c87899ae27c48))
+
 ## 1.0.0-dev.1 (2026-11-13)
 
 ### ✨ New Features
