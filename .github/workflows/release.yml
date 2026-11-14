@@ -50,6 +50,20 @@ jobs:
           subject-name: 'Morphe Patches ${{ steps.release.outputs.new_release_git_tag }}'
           subject-path: patches/build/libs/patches-*.mpp
 
+      # Los releases creados con GITHUB_TOKEN no disparan el evento release.published
+      # en otros workflows (regla de GitHub), así que se dispara explícitamente por
+      # workflow_dispatch (única excepción junto a repository_dispatch).
+      - name: Disparar Patch APK
+        if: steps.release.outputs.new_release_published == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run patch-apk.yml --repo "$GITHUB_REPOSITORY" \
+            --ref "$GITHUB_REF_NAME" \
+            -f patches_tag="${{ steps.release.outputs.new_release_git_tag }}" \
+            -f gate_patch=true
+        continue-on-error: true
+
       # Always verify compilation when semantic-release did not publish a release.
       # This covers non-main/dev branches, chore commits, docs commits, etc.
       - name: Verify project compiles
