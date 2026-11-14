@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-14T01:02:06",
-  "description": "## [1.0.0-dev.2](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2026-11-14)\n\n### 🐛 Bug Fixes\n\n* cascada de fingerprints para robustez entre builds de la app ([369ec40](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/369ec4041a3b4e42b2cf6ffd924c87899ae27c48))",
-  "download_url": "https://github.com/hiroshiren86-sketch/morphe-patches-personal/releases/download/v1.0.0-dev.2/patches-1.0.0-dev.2.mpp",
+  "created_at": "2026-11-14T01:55:18",
+  "description": "## [1.0.0-dev.3](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-11-14)\n\n### 🐛 Bug Fixes\n\n* crash al arrancar por replaceMethodBody en initialize con try-catch ([804f570](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/804f5705a634058129ea2abef07bcb54ac59c882))",
+  "download_url": "https://github.com/hiroshiren86-sketch/morphe-patches-personal/releases/download/v1.0.0-dev.3/patches-1.0.0-dev.3.mpp",
   "signature_download_url": "",
-  "version": "1.0.0-dev.2"
+  "version": "1.0.0-dev.3"
 }

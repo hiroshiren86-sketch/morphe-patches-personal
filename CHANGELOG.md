@@ -1,3 +1,9 @@
+## [1.0.0-dev.3](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-11-14)
+
+### 🐛 Bug Fixes
+
+* crash al arrancar por replaceMethodBody en initialize con try-catch ([804f570](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/804f5705a634058129ea2abef07bcb54ac59c882))
+
 ## [1.0.0-dev.2](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2026-11-14)
 
 ### 🐛 Bug Fixes

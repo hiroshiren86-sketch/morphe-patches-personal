@@ -19,7 +19,7 @@ Click the button below, or manually add this repo url to Morphe Manager: https:/
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.2](https://github.com/hiroshiren86-sketch/morphe-patches-personal/releases/tag/v1.0.0-dev.2)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;4 patches total
+> **[v1.0.0-dev.3](https://github.com/hiroshiren86-sketch/morphe-patches-personal/releases/tag/v1.0.0-dev.3)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;4 patches total
 <details open>
 <summary>📦 Kawaii Animes&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
 <br>
@@ -34,7 +34,7 @@ Click the button below, or manually add this repo url to Morphe Manager: https:/
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Bypass del detector de AdBlock](#bypass-del-detector-de-adblock) | Desactiva la detección de bloqueadores de anuncios por DNS: isDomainBlocked siempre responde false y no se consultan dominios de Unity Ads. |  |
-| [Desactivar Unity Ads por completo](#desactivar-unity-ads-por-completo) | Evita que el SDK de Unity Ads se inicialice (menos red y telemetría). Con los patches de anuncios activos ya no se muestran anuncios; este patch es opcional. |  |
+| [Compatibilidad con integridad nativa (V29)](#compatibilidad-con-integridad-nativa-v29) | La app firma sus peticiones al catalogo con libprotection.so, que verifica la firma del APK. Al re-firmar con Morphe ese gate queda en false. Este patch carga la lib nativa y fuerza el gate a true sin ejecutar el chequeo, para que el app use las rutas de proteccion normales. Pruebalo solo si la app se cierra al arrancar o el catalogo no carga con los demas patches. |  |
 | [Recompensa instantánea de episodios](#recompensa-instant-nea-de-episodios) | Todos los episodios se consideran con la recompensa del anuncio ya pagada, desbloqueando el contenido que exige ver anuncios sin verlos. |  |
 | [Saltar anuncios de episodios](#saltar-anuncios-de-episodios) | La app nunca decide mostrar anuncios entre episodios: shouldShowAdNext devuelve false fijo, igual que el APK parcheado de referencia. |  |
 

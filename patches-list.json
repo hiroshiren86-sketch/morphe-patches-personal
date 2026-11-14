@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.2",
+  "version": "1.0.0-dev.3",
   "patches": [
     {
       "name": "Bypass del detector de AdBlock",
@@ -30,8 +30,8 @@
       "options": []
     },
     {
-      "name": "Desactivar Unity Ads por completo",
-      "description": "Evita que el SDK de Unity Ads se inicialice (menos red y telemetría). Con los patches de anuncios activos ya no se muestran anuncios; este patch es opcional.",
+      "name": "Compatibilidad con integridad nativa (V29)",
+      "description": "La app firma sus peticiones al catalogo con libprotection.so, que verifica la firma del APK. Al re-firmar con Morphe ese gate queda en false. Este patch carga la lib nativa y fuerza el gate a true sin ejecutar el chequeo, para que el app use las rutas de proteccion normales. Pruebalo solo si la app se cierra al arrancar o el catalogo no carga con los demas patches.",
       "default": false,
       "category": null,
       "compatiblePackages": [
