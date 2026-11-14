@@ -33,6 +33,26 @@ Idioma de trabajo: español.
 - Verificar SIEMPRE si el APK tiene protección nativa (`lib/*.so` + strings `JNI_OnLoad`,
   `RegisterNatives`, nombre del bridge) antes de asumir que un crash es de los patches.
   Los métodos `native` NO se pueden parchear (no tienen cuerpo); se parchea su llamador.
+- NO escanear `method.implementation.instructions` a mano en los patches: dentro del run
+  real del parcheador ese scan puede divergir del que hace el motor (falló con el gate
+  de q25 aunque el método tenía el sput-boolean). Usar SIEMPRE los `instructionMatches`
+  del propio fingerprint: declarar la estructura completa con filtros encadenados
+  (`methodCall` / `opcode` con `MatchAfterImmediately`) y leer índices, registros y
+  literales de `Match.InstructionMatch`. El motor que matcheó es la fuente de verdad.
+- Para reemplazos quirúrgicos, mantener el MISMO número de instrucciones y tamaños
+  (code units): `invoke` 35c (2u) ↔ `const-wide` 51l (2u), `move-result-wide` 11x (1u) ↔
+  `nop` 10x (1u). Los rangos try-catch quedan con los mismos offsets → dex válido.
+- PIPELINE AUTOMÁTICO (workflow `patch-apk.yml`): cada release publicado parchea el APK
+  base con el CLI oficial `morphe-desktop` (jar `-all` de MorpheApp/morphe-desktop) y
+  publica el APK en el release fijo `app-mod`. Firma con keystore PKCS12 ESTABLE en los
+  secrets `MORPHE_KEYSTORE_P12` + `MORPHE_KEYSTORE_PASSWORD` (alias `Morphe`, contraseña
+  de prueba `kawaii-mod-2026` — NO es un secreto real, es clave personal para instalar).
+  NO usar `--striplibs` (libprotection.so es necesaria). Reproducir fallos del pipeline
+  en local: `java -jar morphe-desktop.jar patch --patches patches-X.Y.Z.mpp -e "Patch"
+  -o out.apk base.apk` (motor idéntico al Manager, ~1s por run).
+- Al hacer push a `dev`, esperar a que termine el workflow Release antes de pushear otro
+  commit (si el branch queda "behind", semantic-release salta la publicación y el
+  release lo termina generando el run siguiente — funciona pero confunde).
 - `README.md` es regenerado automáticamente por semantic-release en cada release:
   la documentación propia vive en `docs/`, no en README.md.
 - No renombrar los paquetes base de la plantilla (`app.template`, `util`) sin necesidad
