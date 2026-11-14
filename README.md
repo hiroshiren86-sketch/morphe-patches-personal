@@ -19,7 +19,7 @@ Click the button below, or manually add this repo url to Morphe Manager: https:/
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.3](https://github.com/hiroshiren86-sketch/morphe-patches-personal/releases/tag/v1.0.0-dev.3)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;4 patches total
+> **[v1.0.0-dev.4](https://github.com/hiroshiren86-sketch/morphe-patches-personal/releases/tag/v1.0.0-dev.4)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;4 patches total
 <details open>
 <summary>📦 Kawaii Animes&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
 <br>
@@ -34,7 +34,7 @@ Click the button below, or manually add this repo url to Morphe Manager: https:/
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Bypass del detector de AdBlock](#bypass-del-detector-de-adblock) | Desactiva la detección de bloqueadores de anuncios por DNS: isDomainBlocked siempre responde false y no se consultan dominios de Unity Ads. |  |
-| [Compatibilidad con integridad nativa (V29)](#compatibilidad-con-integridad-nativa-v29) | La app firma sus peticiones al catalogo con libprotection.so, que verifica la firma del APK. Al re-firmar con Morphe ese gate queda en false. Este patch carga la lib nativa y fuerza el gate a true sin ejecutar el chequeo, para que el app use las rutas de proteccion normales. Pruebalo solo si la app se cierra al arrancar o el catalogo no carga con los demas patches. |  |
+| [Compatibilidad con integridad nativa (V29)](#compatibilidad-con-integridad-nativa-v29) | La app firma sus peticiones al catalogo con libprotection.so, que verifica la firma del APK. Al re-firmar con Morphe ese chequeo falla y el gate queda en false: la app degrada sus rutas y el catalogo puede quedarse cargando. Este patch neutraliza el chequeo (la comparacion siempre da valida) conservando la carga de la lib nativa y el manejo de errores original. Requiere no eliminar las librerias nativas del APK. |  |
 | [Recompensa instantánea de episodios](#recompensa-instant-nea-de-episodios) | Todos los episodios se consideran con la recompensa del anuncio ya pagada, desbloqueando el contenido que exige ver anuncios sin verlos. |  |
 | [Saltar anuncios de episodios](#saltar-anuncios-de-episodios) | La app nunca decide mostrar anuncios entre episodios: shouldShowAdNext devuelve false fijo, igual que el APK parcheado de referencia. |  |
 

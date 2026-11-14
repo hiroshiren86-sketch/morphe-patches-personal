@@ -1,3 +1,9 @@
+## [1.0.0-dev.4](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.3...v1.0.0-dev.4) (2026-11-14)
+
+### 🐛 Bug Fixes
+
+* patch V29 engine-driven + pipeline de APK automatico en CI ([bf79785](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/bf797855ada27bdf8e6edfed6bf1c4747a5ada07))
+
 ## [1.0.0-dev.3](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-11-14)
 
 ### 🐛 Bug Fixes
