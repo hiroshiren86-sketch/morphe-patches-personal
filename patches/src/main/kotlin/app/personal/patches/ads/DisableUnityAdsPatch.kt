@@ -3,6 +3,7 @@ package app.personal.patches.ads
 import app.morphe.patcher.patch.patch
 import app.personal.patches.Constants.KAWAII_ANIMES
 import app.personal.patches.replaceMethodBody
+import app.personal.patches.resolveMethodWithFallback
 
 /**
  * Patch opcional (no replicado del mod de referencia, que mantiene la
@@ -17,6 +18,12 @@ val disableUnityAdsPatch = patch(
     compatibleWith(KAWAII_ANIMES)
 
     execute {
-        replaceMethodBody(AdManagerInitializeFingerprint.method, "return-void")
+        val method = resolveMethodWithFallback(
+            "Desactivar Unity Ads por completo",
+            AdManagerInitializeFingerprint,
+            AdManagerInitializeRelaxedFingerprint,
+        )
+
+        replaceMethodBody(method, "return-void")
     }
 }

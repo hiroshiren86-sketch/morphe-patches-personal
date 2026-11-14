@@ -3,6 +3,7 @@ package app.personal.patches.ads
 import app.morphe.patcher.patch.patch
 import app.personal.patches.Constants.KAWAII_ANIMES
 import app.personal.patches.replaceMethodBody
+import app.personal.patches.resolveMethodWithFallback
 
 /**
  * Réplica del mod de referencia (origin):
@@ -17,7 +18,13 @@ val skipEpisodeAdGatePatch = patch(
     compatibleWith(KAWAII_ANIMES)
 
     execute {
-        replaceMethodBody(ShouldShowAdNextFingerprint.method, """
+        val method = resolveMethodWithFallback(
+            "Saltar anuncios de episodios",
+            ShouldShowAdNextFingerprint,
+            ShouldShowAdNextRelaxedFingerprint,
+        )
+
+        replaceMethodBody(method, """
             const/4 p0, 0x0
             return p0
         """)
@@ -37,7 +44,13 @@ val instantAdRewardPatch = patch(
     compatibleWith(KAWAII_ANIMES)
 
     execute {
-        replaceMethodBody(IsAdRewardedFingerprint.method, """
+        val method = resolveMethodWithFallback(
+            "Recompensa instantánea de episodios",
+            IsAdRewardedFingerprint,
+            IsAdRewardedRelaxedFingerprint,
+        )
+
+        replaceMethodBody(method, """
             const/4 p0, 0x1
             return p0
         """)
