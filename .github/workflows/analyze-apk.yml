@@ -1,0 +1,78 @@
+name: Analyze APK
+
+# Decompila el APK base de la app y sube el smali como artifact,
+# ademas de imprimir un reporte de las clases de interes en el log.
+# Sirve para depurar fingerprints y diagnosticar crashes sin usar
+# entornos locales pesados.
+
+on:
+  workflow_dispatch:
+    inputs:
+      asset:
+        description: "Asset del release apks-trabajo a analizar"
+        required: false
+        default: "Proyecto.BASE.apk"
+
+permissions:
+  contents: read
+
+jobs:
+  decompile:
+    name: Decompilar y reportar
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Descargar APK del release apks-trabajo
+        env:
+          ASSET: ${{ github.event.inputs.asset || 'Proyecto.BASE.apk' }}
+        run: |
+          curl -fsSL -o work.apk \
+            "https://github.com/${{ github.repository }}/releases/download/apks-trabajo/${ASSET}"
+          ls -la work.apk
+
+      - name: Decompilar (solo smali, sin recursos)
+        run: |
+          curl -fsSL -o apktool.jar \
+            "https://github.com/iBotPeaches/Apktool/releases/download/v2.9.3/apktool_2.9.3.jar"
+          java -jar apktool.jar d -f --no-res -o smali_out work.apk
+          echo "### Estructura smali" >> "$GITHUB_STEP_SUMMARY"
+          du -sh smali_out >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Reporte de clases de interes
+        run: |
+          cd smali_out
+          echo "== Clases que llaman a exitProcess / killProcess / System.exit ==" | tee -a report.txt
+          grep -rl -e "exitProcess" -e "killProcess" -e "System;->exit" smali*/ | sort | tee -a report.txt
+
+          echo "" | tee -a report.txt
+          echo "== Clases que usan PackageManager.getPackageInfo ==" | tee -a report.txt
+          grep -rl "getPackageInfo" smali*/ | sort | tee -a report.txt
+
+          echo "" | tee -a report.txt
+          echo "== Uso de signatures (firma del APK) ==" | tee -a report.txt
+          grep -rn "signatures" smali*/ | head -30 | tee -a report.txt
+
+          echo "" | tee -a report.txt
+          echo "== NativeProtectionBridgeV29 (completo) ==" | tee -a report.txt
+          find smali*/ -name "NativeProtectionBridgeV29*.smali" | while read -r f; do
+            echo "--- $f ---" | tee -a report.txt
+            cat "$f" | tee -a report.txt
+          done
+
+          echo "" | tee -a report.txt
+          echo "== Clases del paquete data/security ==" | tee -a report.txt
+          find smali*/com/darkdeveloper/kawaiianimes/data/security -maxdepth 1 -name "*.smali" 2>/dev/null | grep -v '\$' | sort | tee -a report.txt
+
+      - name: Subir smali completo
+        uses: actions/upload-artifact@v4
+        with:
+          name: smali-${{ github.run_number }}
+          path: smali_out
+          retention-days: 7
+
+      - name: Subir reporte
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-${{ github.run_number }}
+          path: report.txt
+          retention-days: 30
