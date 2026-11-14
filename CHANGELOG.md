@@ -1,3 +1,9 @@
+## [1.0.0-dev.5](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.4...v1.0.0-dev.5) (2026-11-14)
+
+### 🐛 Bug Fixes
+
+* spoof de firma original via proxy de PackageManager para proofs validos ([6c0f89a](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/6c0f89a8deda0ef92be967df7bc05a189712f64c))
+
 ## [1.0.0-dev.4](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.3...v1.0.0-dev.4) (2026-11-14)
 
 ### 🐛 Bug Fixes
