@@ -9,12 +9,12 @@ import app.personal.patches.Constants.KAWAII_ANIMES
 import app.personal.patches.resolveMethodWithFallback
 import com.android.tools.smali.dexlib2.AccessFlags
 import com.android.tools.smali.dexlib2.Opcode
-import com.android.tools.smali.dexlib2.ImmutableMethod
-import com.android.tools.smali.dexlib2.ImmutableMethodImplementation
-import com.android.tools.smali.dexlib2.ImmutableMethodParameter
-import com.android.tools.smali.dexlib2.builder.ImmutableInstruction
-import com.android.tools.smali.dexlib2.builder.instruction.ImmutableInstruction10x
-import com.android.tools.smali.dexlib2.builder.instruction.ImmutableInstruction35c
+import com.android.tools.smali.dexlib2.immutable.ImmutableMethod
+import com.android.tools.smali.dexlib2.immutable.ImmutableMethodImplementation
+import com.android.tools.smali.dexlib2.immutable.ImmutableMethodParameter
+import com.android.tools.smali.dexlib2.immutable.instruction.ImmutableInstruction
+import com.android.tools.smali.dexlib2.immutable.instruction.ImmutableInstruction10x
+import com.android.tools.smali.dexlib2.immutable.instruction.ImmutableInstruction35c
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import com.android.tools.smali.dexlib2.immutable.reference.ImmutableMethodReference
 
