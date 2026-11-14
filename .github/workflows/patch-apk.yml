@@ -119,9 +119,11 @@ jobs:
           TAG: ${{ steps.tag.outputs.tag }}
         run: |
           set -euo pipefail
-          ASSET="kawaiianimes-2.1.3-mod.apk"
-          cp kawaiianimes-mod.apk "$ASSET"
           BUNDLE_VERSION=$(basename patches.mpp .mpp | sed 's/^patches-//')
+          # El nombre incluye el tag del bundle para que no se confunda con
+          # descargas viejas del mismo nombre (punto clave del debug dev.5).
+          ASSET="kawaiianimes-2.1.3-mod-${BUNDLE_VERSION}.apk"
+          cp kawaiianimes-mod.apk "$ASSET"
           NOTES=$(cat <<'EOF'
           APK de Kawaii Animes 2.1.3 parcheado automáticamente en CI.
 
