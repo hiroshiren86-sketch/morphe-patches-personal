@@ -103,8 +103,8 @@ val signatureSpoofPatch = patch(
                 listOf(ImmutableMethodParameter("Landroid/content/Context;", null, null)),
                 "V",
                 AccessFlags.PROTECTED.value,
-                emptySet<HiddenApiRestriction>(),
                 null,
+                emptySet<HiddenApiRestriction>(),
                 ImmutableMethodImplementation(2, instructions, null, null),
             )
             kawaii.methods.add(MutableMethod(attach))
