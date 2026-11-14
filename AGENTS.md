@@ -23,6 +23,16 @@ Idioma de trabajo: español.
 - Releases SOLO por el workflow (semantic-release). NUNCA crear releases ni tags manuales.
 - Filosofía del propietario: VARIOS patches pequeños (uno por función), NO un mega-patch.
 - Preferir fingerprints estables; declarar en `AppTarget` la versión exacta del APK probada.
+- `replaceMethodBody` SOLO es seguro en métodos SIN bloques try-catch: vaciar el cuerpo
+  deja el rango `.catch` corrupto (VerifyError al cargar la clase = app se cierra al
+  arrancar). En métodos con try-catch usar `addInstructions(0, "...")` con retorno
+  temprano (el original queda inalcanzado pero intacto). Ver BITACORA 2026-11-14.
+- No vaciar métodos que inicializan estado de SDKs (ej. `AdManager.initialize`):
+  dejan campos a medias y NPE en arranque. Si el mod de referencia no lo hace, replicarlo
+  tal cual y no "mejorarlo".
+- Verificar SIEMPRE si el APK tiene protección nativa (`lib/*.so` + strings `JNI_OnLoad`,
+  `RegisterNatives`, nombre del bridge) antes de asumir que un crash es de los patches.
+  Los métodos `native` NO se pueden parchear (no tienen cuerpo); se parchea su llamador.
 - `README.md` es regenerado automáticamente por semantic-release en cada release:
   la documentación propia vive en `docs/`, no en README.md.
 - No renombrar los paquetes base de la plantilla (`app.template`, `util`) sin necesidad
