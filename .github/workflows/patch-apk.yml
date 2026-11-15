@@ -103,13 +103,19 @@ jobs:
           # (el build oficial 2.1.3 con 4 dexes y BD pre-sembrada, el mismo que lleva
           # dentro el wrapper LSPatch del usuario). El Proyecto.BASE.apk viejo era otra
           # variante con antitamper nativo V29 que rechaza cualquier re-firma.
-          # En origin NO existe la protección nativa: solo aplican los 3 patches
-          # funcionales (--exclusive excluye el gate V29 y el spoof de firma).
+          # En origin NO existe la protección nativa V29, PERO el build trae el
+          # panel del mod anterior fusionado (classes4) cuyo guardia n0/G.v mata
+          # el proceso si la firma no es la original (bucle de splash infinito,
+          # verificado en BITACORA: hash 366fa8f1... == SHA-256 del cert original).
+          # Por eso: SigSpoof (firma original vía PackageManager, como LSPatch)
+          # + neutralización de n0/G.v + los 3 patches funcionales.
           java -jar morphe-desktop.jar patch \
             --patches patches.mpp --exclusive \
             -e "Bypass del detector de AdBlock" \
             -e "Saltar anuncios de episodios" \
             -e "Recompensa instantánea de episodios" \
+            -e "Firma original en PackageManager (V29)" \
+            -e "Neutralizar antitamper del panel (n0/G)" \
             --keystore morphe-personal.p12 \
             --keystore-password "$MORPHE_KEYSTORE_PASSWORD" \
             -o kawaiianimes-mod.apk \
