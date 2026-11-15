@@ -1,3 +1,9 @@
+## [1.0.0-dev.7](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.6...v1.0.0-dev.7) (2026-11-15)
+
+### 🐛 Bug Fixes
+
+* doble punto y coma en el template smali del invoke-static (lexer error) ([54c1d8a](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/54c1d8a4c4bcabb171757037696fc91fc7643cb8))
+
 ## [1.0.0-dev.6](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.5...v1.0.0-dev.6) (2026-11-14)
 
 ### 🐛 Bug Fixes
