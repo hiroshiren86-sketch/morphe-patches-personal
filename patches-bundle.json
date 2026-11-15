@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-15T03:30:05",
-  "description": "## [1.0.0-dev.9](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.8...v1.0.0-dev.9) (2026-11-15)\n\n### ✨ New Features\n\n* neutralizar antitamper del panel del mod anterior (n0/G) ([6b19984](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/6b19984decf5eee0e5591ca9c31c77218cc8c3f1))",
-  "download_url": "https://github.com/hiroshiren86-sketch/morphe-patches-personal/releases/download/v1.0.0-dev.9/patches-1.0.0-dev.9.mpp",
+  "created_at": "2026-11-15T04:47:29",
+  "description": "## [1.0.0-dev.10](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.9...v1.0.0-dev.10) (2026-11-15)\n\n### ✨ New Features\n\n* builds paralelos base-limpio + origin por release, con plano mental documentado ([99fa733](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/99fa733dde8ee83fe060e42e59d0dbb71e2ae632))",
+  "download_url": "https://github.com/hiroshiren86-sketch/morphe-patches-personal/releases/download/v1.0.0-dev.10/patches-1.0.0-dev.10.mpp",
   "signature_download_url": "",
-  "version": "1.0.0-dev.9"
+  "version": "1.0.0-dev.10"
 }

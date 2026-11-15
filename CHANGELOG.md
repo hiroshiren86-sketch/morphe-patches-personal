@@ -1,3 +1,9 @@
+## [1.0.0-dev.10](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.9...v1.0.0-dev.10) (2026-11-15)
+
+### ✨ New Features
+
+* builds paralelos base-limpio + origin por release, con plano mental documentado ([99fa733](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/99fa733dde8ee83fe060e42e59d0dbb71e2ae632))
+
 ## [1.0.0-dev.9](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.8...v1.0.0-dev.9) (2026-11-15)
 
 ### ✨ New Features
