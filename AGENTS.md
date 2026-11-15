@@ -10,8 +10,9 @@ Idioma de trabajo: español.
 ## Orden de lectura obligatorio al iniciar cada sesión
 
 1. `docs/MORPHE-REFERENCIA.md` — fuente de conocimiento (ecosistema + API real de los patches).
-2. `BITACORA.md` (última entrada) — dónde quedamos la sesión anterior.
-3. `docs/PROYECTO.md` — objetivo, filosofía de patches y método de prueba.
+2. `docs/PLANO-MORPHE.md` — modelo mental completo del pipeline: CLI/bundle/CI, los DOS bases (matriz de patches × bases §7), guardas conocidas y tabla de experimentos.
+3. `BITACORA.md` (última entrada) — dónde quedamos la sesión anterior.
+4. `docs/PROYECTO.md` — objetivo, filosofía de patches y método de prueba.
 
 ## Reglas técnicas
 
@@ -58,6 +59,21 @@ Idioma de trabajo: español.
 - No renombrar los paquetes base de la plantilla (`app.template`, `util`) sin necesidad
   justificada y verificación de build.
 - Los APK de prueba nunca se commitean (`.gitignore` ya excluye `*.apk`).
+- DOS bases válidas (ver docs/PLANO-MORPHE.md §6-§7): `Proyecto.BASE.apk` (limpio oficial,
+  con protección nativa V29 de fábrica → necesita gate V29 + SigSpoof) y `Proyecto.ORIGIN.apk`
+  (variante con BD pre-sembrada y el panel del mod anterior fusionado → necesita SigSpoof +
+  `Neutralizar antitamper del panel (n0/G)`, y NO admite el gate V29). El CI genera AMBAS
+  variantes por release (`-base` y `-origin`); la matriz §7 dice qué patch admite cada base
+  (un patch cuya clase no existe en el base ABORTA el run completo).
+- El flujo del propietario es el de Morphe: base limpio + bundle → APK parchado entregado;
+  el propietario NO puede re-modificar su APK instalado a mano. La variante origin no es
+  una desviación: es la única que ha demostrado funcionar en su dispositivo y el CI la
+  mantiene en paralelo mientras el base limpio no supere su validación nativa (§8a del plano).
+- Antes de asumir que un hang/crash es de los patches, AUDITAR los dexes del base completo
+  (los 4 de origin incluyen el mod anterior fusionado): buscar `getPackageInfo`+`GET_SIGNATURES`
+  (flag 64), comparaciones SHA-256 de `signatures[0]`, `Process.killProcess`, llamadas
+  reflectivas (`Class.forName`) y `System.loadLibrary` extraños. Método probado: tabla
+  method_ids + `.BBBB` de las instrucciones invoke (androguard), no escaneos de operands.
 
 ## Seguridad
 
