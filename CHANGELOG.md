@@ -1,3 +1,9 @@
+## [1.0.0-dev.8](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.7...v1.0.0-dev.8) (2026-11-15)
+
+### 🐛 Bug Fixes
+
+* base correcto para el pipeline (Proyecto.ORIGIN.apk) ([01313bc](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/01313bc4e681b6d5e3dd9e1d46cfef0fbbef0595))
+
 ## [1.0.0-dev.7](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.6...v1.0.0-dev.7) (2026-11-15)
 
 ### 🐛 Bug Fixes
