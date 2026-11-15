@@ -1,3 +1,9 @@
+## [1.0.0-dev.9](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.8...v1.0.0-dev.9) (2026-11-15)
+
+### ✨ New Features
+
+* neutralizar antitamper del panel del mod anterior (n0/G) ([6b19984](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/6b19984decf5eee0e5591ca9c31c77218cc8c3f1))
+
 ## [1.0.0-dev.8](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.7...v1.0.0-dev.8) (2026-11-15)
 
 ### 🐛 Bug Fixes
