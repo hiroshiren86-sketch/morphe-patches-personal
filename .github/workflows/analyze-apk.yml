@@ -64,14 +64,14 @@ jobs:
           find smali*/com/darkdeveloper/kawaiianimes/data/security -maxdepth 1 -name "*.smali" 2>/dev/null | grep -v '\$' | sort | tee -a report.txt
 
       - name: Subir smali completo
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: smali-${{ github.run_number }}
           path: smali_out
           retention-days: 7
 
       - name: Subir reporte
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: report-${{ github.run_number }}
           path: report.txt
