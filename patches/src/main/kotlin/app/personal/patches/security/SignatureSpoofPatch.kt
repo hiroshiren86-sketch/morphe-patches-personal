@@ -115,7 +115,7 @@ val signatureSpoofPatch = patch(
         method.addInstructions(
             0,
             """
-            invoke-static {p0}, $SIGSPOOF_CLASS;->install(Landroid/content/Context;)V
+            invoke-static {p0}, $SIGSPOOF_CLASS->install(Landroid/content/Context;)V
             """.trimIndent()
         )
     }
