@@ -92,6 +92,27 @@ jobs:
           KEYSTORE_B64: ${{ secrets.MORPHE_KEYSTORE_P12 }}
         run: echo "$KEYSTORE_B64" | base64 -d > morphe-personal.p12
 
+      - name: Inyectar APK original como asset (equiv. LSPatch origin.apk)
+        if: steps.tag.outputs.tag != ''
+        run: |
+          set -euo pipefail
+          # La proteccion nativa llama Context.getPackageCodePath(), abre
+          # java.util.zip.ZipFile y escanea las entradas del ZIP (incluidas las
+          # *.apk) con SHA-256 via MessageDigest (disassembly en PLANO-MORPHE §8a).
+          # Igual que LSPatch embebe assets/lspatch/origin.apk en su wrapper, aqui
+          # se embebe el APK ORIGINAL como assets/orig/app.apk: SigSpoof v3 lo
+          # extrae a cacheDir y redirige getPackageCodePath/getPackageResourcePath
+          # y applicationInfo.sourceDir a ese archivo. Se agrega ANTES del parcheo
+          # para que Morphe conserve el asset y lo firme en el APK final.
+          python3 - <<'PY'
+          import zipfile, shutil, os
+          for src, dst in (('origin.apk', 'origin-wrap.apk'), ('base-limpio.apk', 'base-wrap.apk')):
+              shutil.copyfile(src, dst)
+              with zipfile.ZipFile(dst, 'a', zipfile.ZIP_DEFLATED) as z:
+                  z.write(src, 'assets/orig/app.apk')
+              print(dst, os.path.getsize(dst))
+          PY
+
       - name: Listar patches del bundle (auditoría)
         if: steps.tag.outputs.tag != ''
         run: java -jar morphe-desktop.jar list-patches --patches patches.mpp
@@ -118,7 +139,7 @@ jobs:
             --keystore morphe-personal.p12 \
             --keystore-password "$MORPHE_KEYSTORE_PASSWORD" \
             -o kawaiianimes-mod-origin.apk \
-            origin.apk
+            origin-wrap.apk
           ls -la kawaiianimes-mod-origin.apk
 
       - name: Parchear y firmar (variante BASE LIMPIO)
@@ -144,7 +165,7 @@ jobs:
             --keystore morphe-personal.p12 \
             --keystore-password "$MORPHE_KEYSTORE_PASSWORD" \
             -o kawaiianimes-mod-base.apk \
-            base-limpio.apk
+            base-wrap.apk
           ls -la kawaiianimes-mod-base.apk
 
       - name: Publicar APKs en el release app-mod
