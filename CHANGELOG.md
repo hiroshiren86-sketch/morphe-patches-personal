@@ -1,3 +1,10 @@
+## [1.0.0-dev.11](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.10...v1.0.0-dev.11) (2026-11-19)
+
+### 🐛 Bug Fixes
+
+* capturar NoSuchAlgorithmException en SigSpoof.sha256Bytes ([1837647](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/18376470351a38595da6ee2a7ebece6b88fb9c24))
+* SigSpoof v3 redirige la lectura del APK al original embebido (equiv. LSPatch L3) ([aafa1d7](https://github.com/hiroshiren86-sketch/morphe-patches-personal/commit/aafa1d779eb876280081babcd393b2981c96e966))
+
 ## [1.0.0-dev.10](https://github.com/hiroshiren86-sketch/morphe-patches-personal/compare/v1.0.0-dev.9...v1.0.0-dev.10) (2026-11-15)
 
 ### ✨ New Features
