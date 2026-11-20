@@ -161,3 +161,23 @@ commit "feat:/fix:/chore:" en dev
 3. Tras cada build, verificar el APK final LEYENDO EL BYTECODE (androguard/baksmali), no confiando en el log del CLI: hooks (`const/4`+`return`), `n0/G.v`=`return-void`, `SigSpoof.install` en `attachBaseContext`/`onCreate`, BD pre-sembrada en origin.
 4. Cada hallazgo nuevo → BITACORA.md con fecha, evidencia y archivos tocados.
 5. Si el base limpio sigue fallando en catálogo/streams tras la prueba A/B, el siguiente paso de investigación es la validación a nivel archivo/servidor (§8a), NO volver a las andanzas ya descartadas.
+
+## 10. Panel web "Kawaii Factory" (2026-11-20)
+
+**Qué es**: panel AMOLED (#000 puro, acentos rosa/violeta, logo 改, pétalos sakura) que convierte el repo en una fábrica operable desde el celular. Un solo archivo `web/index.html` AUTOCONTENIDO (React 18 UMD + htm INLINE, sin build, sin CDN, ~176 KB), publicado en GitHub Pages (`.github/workflows/deploy-pages.yml`).
+
+**Arquitectura (sin backend)**:
+- Lecturas ANÓNIMAS (repo público): `GET /releases`, `GET /releases/tags/app-mod`, `GET /actions/runs?workflow=patch-apk.yml`, `GET /actions/runs/{id}/jobs` (pasos REALES del job → stepper de 5 etapas: Preparando → Descargando bundle → Embebiendo original → Parcheando/firmando → Publicando).
+- Escritura con PAT (localStorage, nunca sale hacia otro sitio): `POST /actions/workflows/patch-apk.yml/dispatches` {ref:'dev', inputs:{variant, gate_patch, patches_tag}}. Permiso necesario: **Actions:write** (fine-grained) o scope **workflow** (classic).
+- Caché localStorage (`kfactory.cache.v1`) para render instantáneo + sobrevivir al rate limit anónimo (60/h por IP); con token refetch autenticado (5000/h).
+- Éxito → cajón expendedor animado (puerta CSS + cajas con glow) con descarga directa de los assets `-origin`/`-base` más recientes de app-mod.
+
+**Lecciones del desarrollo** (bugs reales encontrados):
+1. `htm.bind(createElement)` SOLO sirve para templates tagged; llamarlo directo como `h(App, null)` rompe (el parser recibe una función como statics → `TypeError: reading 'length'`). Fix: `const h = React.createElement` aparte.
+2. `gh('/user')` se concatenaba con la URL del repo → 404 silencioso. Fix: gh() acepta URLs absolutas.
+3. El dispatch valida inputs contra el workflow EN EL REF: si el archivo remoto no tiene el input nuevo → `Unexpected inputs provided: ["variant"]`. Siempre pushear el workflow antes de usar el input desde el panel.
+4. Activar Pages por API requiere token con Administration:write; si el PAT no la tiene, es un clic manual (Settings → Pages → Source: GitHub Actions) y luego re-run de "Deploy Web (Pages)".
+
+**Inputs de patch-apk.yml (v2)**: `variant` (ambas|origin|base, normalizado en el step tag; en evento release queda 'ambas'), `gate_patch` (AHORA se respeta de verdad en la variante base vía bash array), `patches_tag`. Publica solo los artefactos construidos.
+
+**Correlación de versiones (duda cerrada)**: el APK embebido (assets/orig/app.apk) es byte-idéntico al pristine que se usa como entrada del parcheo — ambos v2.1.3 (code 29); los tags dev.N son versiones del BUNDLE de patches, no de la app. Verificado con androguard + SHA-256 (scripts/verify_versions.py).
