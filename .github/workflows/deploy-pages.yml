@@ -1,0 +1,42 @@
+name: Deploy Web (Pages)
+
+# Publica el panel web (web/index.html, autocontenido, sin build) en GitHub Pages.
+# URL: https://hiroshiren86-sketch.github.io/morphe-patches-personal/
+
+on:
+  push:
+    branches: [dev, main]
+    paths: ['web/**', '.github/workflows/deploy-pages.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Publicar panel en Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+
+      - name: Subir artefacto (web/)
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: 'web'
+
+      - name: Desplegar
+        id: deployment
+        uses: actions/deploy-pages@v4

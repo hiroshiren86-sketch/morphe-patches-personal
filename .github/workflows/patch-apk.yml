@@ -8,9 +8,14 @@ on:
   workflow_dispatch:
     inputs:
       gate_patch:
-        description: 'Incluir "Compatibilidad con integridad nativa (V29)"'
+        description: 'Incluir "Compatibilidad con integridad nativa (V29)" (variante base)'
         type: boolean
         default: true
+      variant:
+        description: 'Variantes a construir: ambas | origin | base'
+        type: choice
+        options: [ambas, origin, base]
+        default: ambas
       patches_tag:
         description: 'Tag del release con el bundle .mpp (vacío = último prerelease dev)'
         required: false
@@ -56,7 +61,12 @@ jobs:
               | head -1)
           fi
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "Bundle del release: $TAG"
+          # Variantes y gate normalizados (en evento release los inputs vienen vacíos)
+          V="${{ inputs.variant }}"; [ -z "$V" ] && V=ambas
+          G="${{ inputs.gate_patch }}"; [ -z "$G" ] && G=true
+          echo "variant=$V" >> "$GITHUB_OUTPUT"
+          echo "gate=$G" >> "$GITHUB_OUTPUT"
+          echo "Bundle del release: $TAG (variantes: $V, gate: $G)"
 
       - name: Setup Java
         if: steps.tag.outputs.tag != ''
@@ -118,7 +128,7 @@ jobs:
         run: java -jar morphe-desktop.jar list-patches --patches patches.mpp
 
       - name: Parchear y firmar (variante ORIGIN)
-        if: steps.tag.outputs.tag != ''
+        if: steps.tag.outputs.tag != '' && steps.tag.outputs.variant != 'base'
         env:
           MORPHE_KEYSTORE_PASSWORD: ${{ secrets.MORPHE_KEYSTORE_PASSWORD }}
         run: |
@@ -143,25 +153,31 @@ jobs:
           ls -la kawaiianimes-mod-origin.apk
 
       - name: Parchear y firmar (variante BASE LIMPIO)
-        if: steps.tag.outputs.tag != ''
+        if: steps.tag.outputs.tag != '' && steps.tag.outputs.variant != 'origin'
         env:
           MORPHE_KEYSTORE_PASSWORD: ${{ secrets.MORPHE_KEYSTORE_PASSWORD }}
+          GATE_PATCH: ${{ steps.tag.outputs.gate }}
         run: |
           set -euo pipefail
           # BASE LIMPIO: app-release.apk oficial (animelhd), el que el usuario usa
           # en su flujo Morphe Manager. Tiene la protección nativa V29 de fábrica:
-          # gate confirmRuntimeV29 + proofs de firma para /api/sync y streams, así
-          # que aquí el SigSpoof y el gate V29 SON necesarios. NUNCA incluir el
-          # patch n0/G aquí (esa clase no existe y abortaría el run). Matriz §7
-          # de docs/PLANO-MORPHE.md. Nota dev.5/6/7: esta variante arranca pero
-          # catálogo/streams fallaron en dispositivo; se genera para la prueba A/B.
+          # gate confirmRuntimeV29 + proofs de firma para /api/sync y streams.
+          # NUNCA incluir el patch n0/G aquí (esa clase no existe y abortaría el
+          # run). El gate V29 respeta el input gate_patch (default true). Matriz
+          # §7 de docs/PLANO-MORPHE.md; desde dev.11 la verificación nativa pasa
+          # porque el CI embebe el APK ORIGINAL y SigSpoof v3 redirige la lectura.
+          ARGS=(
+            --patches patches.mpp --exclusive
+            -e "Bypass del detector de AdBlock"
+            -e "Saltar anuncios de episodios"
+            -e "Recompensa instantánea de episodios"
+            -e "Firma original en PackageManager (V29)"
+          )
+          if [ "$GATE_PATCH" = "true" ]; then
+            ARGS+=(-e "Compatibilidad con integridad nativa (V29)")
+          fi
           java -jar morphe-desktop.jar patch \
-            --patches patches.mpp --exclusive \
-            -e "Bypass del detector de AdBlock" \
-            -e "Saltar anuncios de episodios" \
-            -e "Recompensa instantánea de episodios" \
-            -e "Compatibilidad con integridad nativa (V29)" \
-            -e "Firma original en PackageManager (V29)" \
+            "${ARGS[@]}" \
             --keystore morphe-personal.p12 \
             --keystore-password "$MORPHE_KEYSTORE_PASSWORD" \
             -o kawaiianimes-mod-base.apk \
@@ -173,34 +189,46 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ steps.tag.outputs.tag }}
+          VARIANT: ${{ steps.tag.outputs.variant }}
         run: |
           set -euo pipefail
           # El nombre incluye el tag del bundle y la variante para que no se
-          # confundan descargas viejas ni variantes distintas (dev.5-dev.9).
+          # confundan descargas viejas ni variantes distintas (dev.5-dev.9+).
           BUNDLE_VERSION="$TAG"
           ASSET_ORIGIN="kawaiianimes-2.1.3-mod-${BUNDLE_VERSION}-origin.apk"
           ASSET_BASE="kawaiianimes-2.1.3-mod-${BUNDLE_VERSION}-base.apk"
-          cp kawaiianimes-mod-origin.apk "$ASSET_ORIGIN"
-          cp kawaiianimes-mod-base.apk "$ASSET_BASE"
+          ASSETS=()
+          if [ -f kawaiianimes-mod-origin.apk ] && [ "$VARIANT" != "base" ]; then
+            cp kawaiianimes-mod-origin.apk "$ASSET_ORIGIN"
+            ASSETS+=("$ASSET_ORIGIN")
+          fi
+          if [ -f kawaiianimes-mod-base.apk ] && [ "$VARIANT" != "origin" ]; then
+            cp kawaiianimes-mod-base.apk "$ASSET_BASE"
+            ASSETS+=("$ASSET_BASE")
+          fi
+          if [ ${#ASSETS[@]} -eq 0 ]; then
+            echo "Nada que publicar (variant=$VARIANT sin artefactos)."; exit 1
+          fi
           NOTES=$(cat <<'EOF'
-          APK de Kawaii Animes 2.1.3 parcheado en CI. Dos variantes, misma firma estable (instalable encima):
+          APK de Kawaii Animes 2.1.3 parcheado en CI (dev.11+: fábrica con APK original embebido). Misma firma estable (instalable encima):
 
-          **-origin** (recomendada, probar primero): build oficial con BD del catálogo pre-sembrada (carga al instante) y el panel del mod anterior, cuyo antitamper ya está neutralizado. Equivalente al APK LSPatch que sí funcionaba.
-          - Patches: Saltar anuncios, Recompensa instantánea, Bypass AdBlock, Firma original (SigSpoof), Antitamper del panel neutralizado.
+          **-origin** (recomendada, probar primero): build oficial con BD del catálogo pre-sembrada (carga al instante) y el panel del mod anterior, cuyo antitamper (n0/G) está neutralizado. Equivalente al APK LSPatch que sí funcionaba.
+          - Patches: Saltar anuncios, Recompensa instantánea, Bypass AdBlock, Firma original (SigSpoof v3), Antitamper del panel neutralizado.
 
-          **-base** (base limpio oficial, flujo Morphe Manager): app-release.apk del repo oficial con su protección nativa de fábrica. Puede arrancar, pero en pruebas anteriores (dev.5-7) el catálogo/streams fallaron tras re-firmar; se publica para la prueba A/B.
-          - Patches: Saltar anuncios, Recompensa instantánea, Bypass AdBlock, Compatibilidad integridad nativa (V29), Firma original (SigSpoof).
+          **-base** (base limpio oficial, flujo Morphe Manager): app-release.apk del repo oficial con su protección nativa V29 de fábrica. Desde dev.11 la verificación nativa pasa: el CI embebe el APK ORIGINAL como asset (equivalente a LSPatch origin.apk) y SigSpoof v3 redirige getPackageCodePath/getPackageResourcePath + sourceDir a él, además del gate V29 forzado y el spoof de PackageManager/hasSigningCertificate. Confirmado byte a byte que el embebido es idéntico al original (v2.1.3, code 29).
+          - Patches: Saltar anuncios, Recompensa instantánea, Bypass AdBlock, Compatibilidad integridad nativa (V29), Firma original (SigSpoof v3).
 
+          Verificación sin ADB: Android/data/com.darkdeveloper.kawaiianimes/files/sigspoof.log debe mostrar "redirect: APK original extraido".
           Si venías de la versión LSPatch o del Manager, desinstala primero.
           Bundle de patches: reemplazar-esta-linea
           EOF
           )
           NOTES="${NOTES/reemplazar-esta-linea/$BUNDLE_VERSION}"
           if gh release view app-mod --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
-            gh release upload app-mod "$ASSET_ORIGIN" "$ASSET_BASE" --repo "$GITHUB_REPOSITORY" --clobber
+            gh release upload app-mod "${ASSETS[@]}" --repo "$GITHUB_REPOSITORY" --clobber
             gh release edit app-mod --repo "$GITHUB_REPOSITORY" --notes "$NOTES" --prerelease
           else
-            gh release create app-mod "$ASSET_ORIGIN" "$ASSET_BASE" --repo "$GITHUB_REPOSITORY" \
+            gh release create app-mod "${ASSETS[@]}" --repo "$GITHUB_REPOSITORY" \
               --title "Kawaii Animes parcheado (mod)" --notes "$NOTES" --prerelease
           fi
-          echo "APKs publicados en app-mod: $ASSET_ORIGIN, $ASSET_BASE (bundle $BUNDLE_VERSION)"
+          echo "APKs publicados en app-mod: ${ASSETS[*]} (bundle $BUNDLE_VERSION)"
